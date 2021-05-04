@@ -7,11 +7,12 @@
 
 import SwiftUI
 
+
+
 struct MainTasksList: View {
     
     // @StateObject private var tasksViewModel: tasksViewModel = tasksViewModel()
     @State private var selection: String? = nil
-    
     @StateObject var tasksViewModel: TasksViewModel = TasksViewModel()
     // @State var innerTasks: [Task]
     
@@ -27,57 +28,27 @@ struct MainTasksList: View {
                     NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel), tag: "Second", selection: $selection) {
                         EmptyView()
                     }
-                    NavigationLink(destination: PlayTaskView(), tag: "Third", selection: $selection) {
-                        EmptyView()
-                    }
-                    
+                                        
                     List {
                         
                         ForEach(tasksViewModel.tasks) { task in
+                            
                             VStack(alignment: .leading) {
-                                
-                                Text(task.label)
-                                    .font(.title)
-                                    .foregroundColor(Color.orange)
-                                    .bold()
-                                
-                                Text(task.convertDateFormatter(date: task.startDateTime))
-                                
-                                Text(task.displayRecurring())
-                                /*
-                                ForEach(task.subtasks) { subtask in
-                                    HStack {
-                                        Text("- " + subtask.label)
-                                            .padding(.leading)
-                                            .padding(.all, 16.0)
-                                    }
-                                }
-                                */
-                                HStack {
-                                    /*Button(action: {
-                                        self.selection = "Second"
-                                    }, label: {
-                                        Text("Edit")
-                                    })
-                                    .buttonStyle(BorderlessButtonStyle())
-                                    .padding(16.0)
-                                    .background(Color.yellow
-                                                    .opacity(0.5))*/
-                                    Spacer()
+                                NavigationLink(destination: PlayTaskView(task: task)) {
                                     
-                                    Button(action: {
-                                        self.selection = "Third"
-                                    }, label: {
-                                        Image(systemName: "play.fill")
-                                    })
-                                    .buttonStyle(BorderlessButtonStyle())
-                                    .padding(.all, 16.0)
-                                    .background(Color.yellow
-                                                    .opacity(0.5))
+                                    Text(task.label)
+                                        .font(.title)
+                                        .foregroundColor(Color.orange)
+                                        .bold()
+                                    
+                                    Text(task.convertDateFormatter(date: task.startDateTime))
+                                    
+                                    Text(task.displayRecurring())
+                                    
                                 }
+                                .padding(16.0)
                                 
                             }
-                            .padding(.all, 16.0)
                             
                             
                         } // ForEach
