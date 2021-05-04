@@ -17,12 +17,13 @@ struct AddTaskView: View {
     @State var showingAlert = false
     @State private var date = Date()
     
-    @State var oneToggle: [String: Bool] = ["Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false,"Friday": false,"Saturday": false,"Sunday": false]
+    @State var oneToggle: [Bool] = [false, true, false, false,false,false,false]
     
     var body: some View {
         ZStack {
 
             VStack {
+                
                 Form {
                     HStack {
                         TextField("Label", text: $label)
@@ -39,22 +40,22 @@ struct AddTaskView: View {
                     VStack {
                         Text("Recurring on:")
                         HStack {
-                            ToggleRow(weekday: weekdays[0], selection: oneToggle["Monday"] ?? false)
-                            ToggleRow(weekday: weekdays[1], selection: oneToggle["Tuesday"] ?? false)
+                            ToggleRow(weekday: weekdays[0], selection: oneToggle[0] )
+                            ToggleRow(weekday: weekdays[1], selection: oneToggle[1] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[2], selection: oneToggle["Wednesday"] ?? false)
-                            ToggleRow(weekday: weekdays[3], selection: oneToggle["Thursday"] ?? false)
+                            ToggleRow(weekday: weekdays[2], selection: oneToggle[2] )
+                            ToggleRow(weekday: weekdays[3], selection: oneToggle[3] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[4], selection: oneToggle["Friday"] ?? false)
-                            ToggleRow(weekday: weekdays[5], selection: oneToggle["Saturday"] ?? false)
+                            ToggleRow(weekday: weekdays[4], selection: oneToggle[4] )
+                            ToggleRow(weekday: weekdays[5], selection: oneToggle[5] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[6], selection: oneToggle["Sunday"] ?? false)
+                            ToggleRow(weekday: weekdays[6], selection: oneToggle[6] )
                             Spacer(minLength: 170)
                         }
-                    }
+                    } // VStack
                     
                     Button(action: {
                         if (label.isEmpty) {
@@ -62,20 +63,19 @@ struct AddTaskView: View {
                         } else {
                             let newTask = Task(label: label, timeStamp: date)
                             let newList = tasksViewModel.addTask(newTask: newTask)
-                            print(newList)
+                            print(oneToggle)
                         }
                         
                     }, label: {
                         Text("Add")
                             .frame(maxWidth: .infinity, alignment: .center)
                     })
-                }
+                } // Form
                 .navigationTitle("Add a Task")
                 .navigationBarTitleDisplayMode( .large)
                 .alert(isPresented: $showingAlert) {
                     Alert(title: Text("Validation"), message: Text("Please enter a label."), dismissButton: .default(Text("Got it!")))
                 }
-                
                 
                 
                 Button(action: {
@@ -84,8 +84,7 @@ struct AddTaskView: View {
                     Text("Add subtasks")
                 }.sheet(isPresented: $showSheetView) {
                     SheetView(showSheetView: self.$showSheetView)
-                }
-                
+                } // sheet
                 
                 
                 Button("Delete this task") {
@@ -106,11 +105,12 @@ struct AddTaskView: View {
                                     )
                                 ]
                     )
-                }
-            }
-        }
-    }
-}
+                } // actionSheet
+                
+            } // VStack
+        } // ZStack
+    } // body
+} // AddTaskView
 
 
 struct ToggleRow: View {
@@ -118,7 +118,6 @@ struct ToggleRow: View {
     @State var selection: Bool
     
     var body: some View {
-        
         HStack () {
             Toggle(isOn: $selection) {
                 Text(String(weekday))
@@ -127,7 +126,6 @@ struct ToggleRow: View {
             Spacer()
         }
         .frame(maxWidth: .infinity)
-        
     }
     
 }

@@ -18,7 +18,6 @@ struct MainTasksList: View {
     
     var body: some View {
         
-        
         NavigationView {
             
             ZStack {
@@ -82,9 +81,13 @@ struct MainTasksList: View {
                             
                             
                         } // ForEach
+                        .onDelete(perform: delete)
                         .frame(maxWidth: .infinity)
                         
                     } // List
+                    .toolbar {
+                        EditButton()
+                    }
                     // .listStyle(InsetListStyle())
                     
                 }
@@ -102,14 +105,15 @@ struct MainTasksList: View {
                         })
                         .foregroundColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
                     }
-                }
-            }
-            
-        }
-        
-    }
-    
-    
+                } // toolbar
+                
+            } // VStack
+        } // ZStack
+    } // NavigationView
+} // body
+
+func delete(at offsets: IndexSet) {
+    print("delete a task")
 }
 
 struct ContentView_Previews: PreviewProvider {
