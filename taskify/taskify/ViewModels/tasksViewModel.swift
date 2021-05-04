@@ -27,7 +27,7 @@ class TasksViewModel: ObservableObject {
                             label: "Tooth brushing",
                             duration: 3))
         
-        morning.addRecurring(weekdays: [.Monday, .Tuesday, .Wednesday, .Thursday, .Friday])
+        morning.addRecurring(weekdays: [true, true, true, true,true,false,false])
         
         let bedtime: Task = Task(label: "Go to bed Routine", timeStamp: Date()-15*86400)
         bedtime.addSubtask(newTask: SubTask(
@@ -40,8 +40,8 @@ class TasksViewModel: ObservableObject {
                             label: "Tooth brushing",
                             duration: 3))
         
-        bedtime.addRecurring(weekdays: [.Monday, .Tuesday, .Wednesday, .Thursday])
-                
+        bedtime.addRecurring(weekdays: [true, true, true, true,false,false,false])
+        
         let sampleTasks = [morning,
                            bedtime,
         ]

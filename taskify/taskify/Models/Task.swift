@@ -7,27 +7,41 @@
 
 import Foundation
 
+let weekdays: [String]  = ["Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday","Sunday"]
+
+
 class  Task: Identifiable {
     let ID: UUID = UUID()
     let label: String
     let startDateTime: Date
-    var recurring: Set<Weekday> = Set<Weekday>()
+    var recurring: [Bool] = [false, false, false, false,false,false,false]
     var subtasks: [SubTask]
     
-    enum Weekday: String   {
-    case Monday = "Monday"
-    case Tuesday = "Tuesday"
-    case Wednesday = "Wednesday"
-    case Thursday = "Thursday"
-    case Friday = "Friday"
-    case Saturday = "Saturday"
-    case Sunday = "Sunday"
-    }
     
     init(label: String, timeStamp: Date) {
         self.label = label
         self.startDateTime = timeStamp
         self.subtasks = []
+    }
+    
+    func displayRecurring() -> String {
+        var returnStr: String = ""
+        if (self.recurring == [false, false, false, false,false,false,false]) {
+            returnStr = "none"
+        } else if (self.recurring == [true, true, true, true,true,false,false]) {
+            returnStr = "every weekday" // en semaine
+        } else if (self.recurring == [true, true, true, true,true,true,true]) {
+            returnStr = "everyday" // tous les jours
+        } else if (self.recurring == [false, false, false, false,false,true,true]) {
+            returnStr = "on the week-end" // les week ends
+        } else {
+            for (index, element) in self.recurring.enumerated() {
+                if (element) {
+                    returnStr = returnStr + " " + weekdays[index]
+                }
+            }            
+        }
+        return returnStr
     }
     
     func convertDateFormatter(date: Date) -> String {
@@ -43,12 +57,9 @@ class  Task: Identifiable {
         // return self.subtasks
     }
     
-    func addRecurring(weekdays: [Weekday]) -> Void {
+    func addRecurring(weekdays: [Bool]) -> Void {
         
-        for weekday in weekdays {
-            self.recurring.insert(weekday)
-        }
-        // return self.subtasks
+        self.recurring = weekdays
     }
 }
 

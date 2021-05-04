@@ -2,99 +2,98 @@ import SwiftUI
 
 struct AddTaskView: View {
     @Environment(\.presentationMode) var presentationMode
-
+    
     @ObservedObject var tasksViewModel: TasksViewModel
     // @Binding var showForm: Bool
     // @Binding var showPlay: Bool
     
-    @State var name: String = ""
+    @State var label: String = ""
     @State var age: String = ""
     let id: UUID = UUID()
     
     @State private var showActionSheet = false
-    @State var showSheetView = false
+    @State var showSheetView = true
     
     @State var showingAlert = false
     @State private var date = Date()
-    @State var oneToggle: Bool = false
+    
+    @State var oneToggle: [String: Bool] = ["Monday": false, "Tuesday": false, "Wednesday": false, "Thursday": false,"Friday": false,"Saturday": false,"Sunday": false]
+    
     var body: some View {
         ZStack {
-            
-            /*NavigationLink(
-                destination: PlayTaskView(showPlay: $showPlay)) {
-                EmptyView()
-                
-            }*/
+
             VStack {
                 Form {
                     HStack {
-                        TextField("Label", text: $name)
+                        TextField("Label", text: $label)
                     }
                     
                     HStack {
                         DatePicker(
-                            "",
+                            "Start date",
                             selection: $date,
                             in: Date()...,
                             displayedComponents: [.date, .hourAndMinute]
                         )
-                        Image(systemName: "calendar") .font(Font.system(.callout))
+                    }
+                    VStack {
+                        Text("Recurring on:")
+                        HStack {
+                            ToggleRow(weekday: weekdays[0], selection: oneToggle["Monday"] ?? false)
+                            ToggleRow(weekday: weekdays[1], selection: oneToggle["Tuesday"] ?? false)
+                        }
+                        HStack {
+                            ToggleRow(weekday: weekdays[2], selection: oneToggle["Wednesday"] ?? false)
+                            ToggleRow(weekday: weekdays[3], selection: oneToggle["Thursday"] ?? false)
+                        }
+                        HStack {
+                            ToggleRow(weekday: weekdays[4], selection: oneToggle["Friday"] ?? false)
+                            ToggleRow(weekday: weekdays[5], selection: oneToggle["Saturday"] ?? false)
+                        }
+                        HStack {
+                            ToggleRow(weekday: weekdays[6], selection: oneToggle["Sunday"] ?? false)
+                            Spacer(minLength: 170)
+                        }
                     }
                     
-                    HStack {
-                        TextField("Recurring on", text: $age).keyboardType(.numberPad)
-                        Image(systemName: "calendar") .font(Font.system(.callout))
-                    }
-                    HStack {
-                        VStack {
-                            GameGenerationRow(weekday: Task.Weekday.Monday, selection: oneToggle)
-                            GameGenerationRow(weekday: Task.Weekday.Tuesday, selection: oneToggle)
-                        }
-                        VStack {
-                        GameGenerationRow(weekday: Task.Weekday.Wednesday, selection: oneToggle)
-                        GameGenerationRow(weekday: Task.Weekday.Thursday, selection: oneToggle)
-                    }
-                    }
-                    HStack {
-                        
-                        GameGenerationRow(weekday: Task.Weekday.Friday, selection: oneToggle)
-                        GameGenerationRow(weekday: Task.Weekday.Saturday, selection: oneToggle)
-                        GameGenerationRow(weekday: Task.Weekday.Sunday, selection: oneToggle)
-                    }
                     Button(action: {
-                        if (name.isEmpty || age.isEmpty) {
+                        if (label.isEmpty) {
                             self.showingAlert = true
-                        } else { // name: name, age: Int(age) ?? 0 , id: id, timeStamp: Date()
-                            let newTask = Task(label: "Go to bed Routine", timeStamp: Date()-15*86400)
+                        } else {
+                            let newTask = Task(label: label, timeStamp: date)
                             let newList = tasksViewModel.addTask(newTask: newTask)
-                            print(newList.count)
-                            // showForm = false
+                            print(newList)
                         }
                         
                     }, label: {
                         Text("Add")
                             .frame(maxWidth: .infinity, alignment: .center)
                     })
-                }.navigationTitle("Add a Task")
+                }
+                .navigationTitle("Add a Task")
                 .navigationBarTitleDisplayMode( .large)
                 .alert(isPresented: $showingAlert) {
-                    Alert(title: Text("Validation"), message: Text("Please enter a name and an age."), dismissButton: .default(Text("Got it!")))
+                    Alert(title: Text("Validation"), message: Text("Please enter a label."), dismissButton: .default(Text("Got it!")))
                 }
+                
+                
                 
                 Button(action: {
                     self.showSheetView.toggle()
                 }) {
-                    Text("Show Sheet View")
+                    Text("Add subtasks")
                 }.sheet(isPresented: $showSheetView) {
                     SheetView(showSheetView: self.$showSheetView)
                 }
+                
+                
                 
                 Button("Delete this task") {
                     showActionSheet = true
                 }
                 .actionSheet(isPresented: $showActionSheet) {
-                    ActionSheet(title: Text("Resume Workout Recording"),
-                                message: Text("Choose a destination for workout data"),
+                    ActionSheet(title: Text("Delete task"),
+                                message: Text("Are you sure you want to delete this task?"),
                                 buttons: [
                                     .cancel(),
                                     .destructive(
@@ -113,18 +112,18 @@ struct AddTaskView: View {
     }
 }
 
-struct GameGenerationRow: View {
-    var weekday: Task.Weekday
+
+struct ToggleRow: View {
+    var weekday: String
     @State var selection: Bool
     
     var body: some View {
         
         HStack () {
             Toggle(isOn: $selection) {
-                Text(weekday.rawValue)
-                    
+                Text(String(weekday))
+                
             }
-            .toggleStyle(CheckBoxToggleStyle(labelLeft: true))
             Spacer()
         }
         .frame(maxWidth: .infinity)
@@ -133,24 +132,30 @@ struct GameGenerationRow: View {
     
 }
 
-
-struct CheckBoxToggleStyle: ToggleStyle {
-    let labelLeft: Bool
-    func makeBody(configuration: Configuration) -> some View {
-        HStack {
-
-            Button {
-                configuration.isOn.toggle()
-            } label: {
-                configuration.label
+struct UsersList: View {
+    @State var subTasks:[SubTask] = []
+    
+    var body: some View {
+        NavigationView {
+            List {
+                ForEach(subTasks, id: \.id) { subTask in
+                    Text(subTask.label)
+                }
+                .onDelete(perform: delete)
             }
-            .padding(5)
-            .font(.body)
-            .foregroundColor(configuration.isOn ? Color.orange : Color.black)
-     
+            .toolbar {
+                EditButton()
+            }
+            
+            Button(action: { print("save subtasks!")}) {
+                Text("Save")
+            }
         }
     }
     
+    func delete(at offsets: IndexSet) {
+        subTasks.remove(atOffsets: offsets)
+    }
 }
 
 struct SheetView: View {
@@ -158,13 +163,13 @@ struct SheetView: View {
     
     var body: some View {
         NavigationView {
-            Text("Sheet View content")
-                .navigationBarTitle(Text("Sheet View"), displayMode: .inline)
+            UsersList()
+                .navigationBarTitle(Text("Add a subtask"), displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                     print("Dismissing sheet view...")
                     self.showSheetView = false
                 }) {
-                    Text("Done").bold()
+                    Text("Cancel").bold()
                 })
         }
     }

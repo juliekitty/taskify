@@ -44,6 +44,8 @@ struct MainTasksList: View {
                                 
                                 Text(task.convertDateFormatter(date: task.startDateTime))
                                 
+                                Text(task.displayRecurring())
+                                /*
                                 ForEach(task.subtasks) { subtask in
                                     HStack {
                                         Text("- " + subtask.label)
@@ -51,9 +53,9 @@ struct MainTasksList: View {
                                             .padding(.all, 16.0)
                                     }
                                 }
-                                
+                                */
                                 HStack {
-                                    Button(action: {
+                                    /*Button(action: {
                                         self.selection = "Second"
                                     }, label: {
                                         Text("Edit")
@@ -61,7 +63,7 @@ struct MainTasksList: View {
                                     .buttonStyle(BorderlessButtonStyle())
                                     .padding(16.0)
                                     .background(Color.yellow
-                                                    .opacity(0.5))
+                                                    .opacity(0.5))*/
                                     Spacer()
                                     
                                     Button(action: {
