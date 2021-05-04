@@ -4,24 +4,22 @@ struct AddTaskView: View {
     @Environment(\.presentationMode) var presentationMode
     
     @ObservedObject var tasksViewModel: TasksViewModel
-    // @Binding var showForm: Bool
-    // @Binding var showPlay: Bool
     
+    // default values for task form
     @State var label: String = ""
-    @State var age: String = ""
-    let id: UUID = UUID()
-    
-    @State private var showActionSheet = false
-    @State var showSheetView = true
-    
-    @State var showingAlert = false
     @State private var date = Date()
+    @State var weekdaysToggle: [Bool] = [false, false, false, false,false,false,false]
     
-    @State var oneToggle: [Bool] = [false, true, false, false,false,false,false]
+    // Default values for UI
+    @State private var showDeleteActionSheet = false
+    @State var showSubtasksSheetView = false
+    @State var showValidationAlert = false
+    
+    
     
     var body: some View {
         ZStack {
-
+            
             VStack {
                 
                 Form {
@@ -40,30 +38,31 @@ struct AddTaskView: View {
                     VStack {
                         Text("Recurring on:")
                         HStack {
-                            ToggleRow(weekday: weekdays[0], selection: oneToggle[0] )
-                            ToggleRow(weekday: weekdays[1], selection: oneToggle[1] )
+                            ToggleRow(weekday: weekdays[0], selection: $weekdaysToggle[0] )
+                            ToggleRow(weekday: weekdays[1], selection: $weekdaysToggle[1] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[2], selection: oneToggle[2] )
-                            ToggleRow(weekday: weekdays[3], selection: oneToggle[3] )
+                            ToggleRow(weekday: weekdays[2], selection: $weekdaysToggle[2] )
+                            ToggleRow(weekday: weekdays[3], selection: $weekdaysToggle[3] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[4], selection: oneToggle[4] )
-                            ToggleRow(weekday: weekdays[5], selection: oneToggle[5] )
-                        }
-                        HStack {
-                            ToggleRow(weekday: weekdays[6], selection: oneToggle[6] )
+                            ToggleRow(weekday: weekdays[4], selection: $weekdaysToggle[4] )
                             Spacer(minLength: 170)
+                        }
+                        HStack {
+                            ToggleRow(weekday: weekdays[5], selection: $weekdaysToggle[5] )
+                            ToggleRow(weekday: weekdays[6], selection: $weekdaysToggle[6] )
                         }
                     } // VStack
                     
                     Button(action: {
                         if (label.isEmpty) {
-                            self.showingAlert = true
+                            self.showValidationAlert = true
                         } else {
                             let newTask = Task(label: label, timeStamp: date)
+                            newTask.addRecurring(weekdays: weekdaysToggle)
                             let newList = tasksViewModel.addTask(newTask: newTask)
-                            print(oneToggle)
+                            print(weekdaysToggle)
                         }
                         
                     }, label: {
@@ -73,24 +72,24 @@ struct AddTaskView: View {
                 } // Form
                 .navigationTitle("Add a Task")
                 .navigationBarTitleDisplayMode( .large)
-                .alert(isPresented: $showingAlert) {
-                    Alert(title: Text("Validation"), message: Text("Please enter a label."), dismissButton: .default(Text("Got it!")))
+                .alert(isPresented: $showValidationAlert) {
+                    Alert(title: Text("Validation"), message: Text("Please enter a label."), dismissButton: .default(Text("OK")))
                 }
                 
                 
                 Button(action: {
-                    self.showSheetView.toggle()
+                    self.showSubtasksSheetView.toggle()
                 }) {
                     Text("Add subtasks")
-                }.sheet(isPresented: $showSheetView) {
-                    SheetView(showSheetView: self.$showSheetView)
+                }.sheet(isPresented: $showSubtasksSheetView) {
+                    subtasksSheetView(showSubtasksSheetView: self.$showSubtasksSheetView)
                 } // sheet
                 
                 
                 Button("Delete this task") {
-                    showActionSheet = true
+                    showDeleteActionSheet = true
                 }
-                .actionSheet(isPresented: $showActionSheet) {
+                .actionSheet(isPresented: $showDeleteActionSheet) {
                     ActionSheet(title: Text("Delete task"),
                                 message: Text("Are you sure you want to delete this task?"),
                                 buttons: [
@@ -113,9 +112,10 @@ struct AddTaskView: View {
 } // AddTaskView
 
 
+// Display a View with a toggle form control
 struct ToggleRow: View {
     var weekday: String
-    @State var selection: Bool
+    @Binding var selection: Bool
     
     var body: some View {
         HStack () {
@@ -130,25 +130,26 @@ struct ToggleRow: View {
     
 }
 
-struct UsersList: View {
+// Display a View with an editable List of subtask
+struct subtasksList: View {
     @State var subTasks:[SubTask] = []
     
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(subTasks, id: \.id) { subTask in
-                    Text(subTask.label)
-                }
-                .onDelete(perform: delete)
+        
+        List {
+            ForEach(subTasks, id: \.id) { subTask in
+                Text(subTask.label)
             }
-            .toolbar {
-                EditButton()
-            }
-            
-            Button(action: { print("save subtasks!")}) {
-                Text("Save")
-            }
+            .onDelete(perform: delete)
         }
+        .toolbar {
+            EditButton()
+        }
+        
+        Button(action: { print("save subtasks!")}) {
+            Text("Save")
+        }
+        
     }
     
     func delete(at offsets: IndexSet) {
@@ -156,16 +157,17 @@ struct UsersList: View {
     }
 }
 
-struct SheetView: View {
-    @Binding var showSheetView: Bool
+// Display a View to use in the subtasksSheetView
+struct subtasksSheetView: View {
+    @Binding var showSubtasksSheetView: Bool
     
     var body: some View {
         NavigationView {
-            UsersList()
+            subtasksList()
                 .navigationBarTitle(Text("Add a subtask"), displayMode: .inline)
                 .navigationBarItems(trailing: Button(action: {
                     print("Dismissing sheet view...")
-                    self.showSheetView = false
+                    self.showSubtasksSheetView = false
                 }) {
                     Text("Cancel").bold()
                 })
@@ -176,8 +178,6 @@ struct SheetView: View {
 
 
 struct AddTaskView_Previews: PreviewProvider {
-    
-    
     static var previews: some View {
         let tasksViewModel: TasksViewModel = TasksViewModel()
         AddTaskView(tasksViewModel: tasksViewModel)
