@@ -2,7 +2,8 @@ import SwiftUI
 
 struct PlayTaskView: View {
   //  @Binding var showPlay: Bool
-    
+    @Environment(\.presentationMode) var presentationMode
+
     var body: some View {
         /* NavigationLink(destination: MainTasksList(showForm: showForm, tasksViewModel: tasksViewModel) {
          EmptyView()

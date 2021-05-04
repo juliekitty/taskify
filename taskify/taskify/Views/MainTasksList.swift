@@ -10,8 +10,7 @@ import SwiftUI
 struct MainTasksList: View {
 
     // @StateObject private var tasksViewModel: tasksViewModel = tasksViewModel()
-    @State private var showForm: Bool = false
-    @State private var showPlay: Bool = false
+    @State private var selection: String? = nil
 
     @StateObject var tasksViewModel: TasksViewModel = TasksViewModel()
     // @State var innerTasks: [Task]
@@ -26,15 +25,14 @@ struct MainTasksList: View {
                 
                 VStack {
                 
-                NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel) , isActive: $showForm) {
+                NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel), tag: "Second", selection: $selection) {
                     EmptyView()
                 }
-                NavigationLink(destination: PlayTaskView() , isActive: $showPlay) {
+                NavigationLink(destination: PlayTaskView(), tag: "Third", selection: $selection) {
                     EmptyView()
                 }
                     
-                }
-                List {
+                    VStack {
                     
                     ForEach(tasksViewModel.tasks) { task in
                         VStack(alignment: .leading) {
@@ -56,7 +54,7 @@ struct MainTasksList: View {
                             
                             HStack {
                                 Button(action: {
-                                    showForm.toggle()
+                                    self.selection = "Second"
                                 }, label: {
                                     Text("Edit")
                                 })
@@ -66,7 +64,7 @@ struct MainTasksList: View {
                                 Spacer()
                                 
                                 Button(action: {
-                                    showPlay = true
+                                    self.selection = "Third"
                                 }, label: {
                                     Image(systemName: "play.fill")
                                 })
@@ -74,7 +72,6 @@ struct MainTasksList: View {
                                 .background(Color.yellow
                                                 .opacity(0.5))
                             }
-                            .frame(maxWidth: .infinity)
                             
                         }
                         .padding(.all, 16.0)
@@ -84,14 +81,14 @@ struct MainTasksList: View {
                     .frame(maxWidth: .infinity)
 
                 } // List
-                .listStyle(InsetListStyle())
+                // .listStyle(InsetListStyle())
                 
             }
             .navigationTitle("My Tasks")
             .toolbar {
                 ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
                     Button(action: {
-                        showForm.toggle()
+                        self.selection = "Second"
                     }, label: {
                         Image(systemName: "plus.square.on.square")
                             .renderingMode(.template)
@@ -104,7 +101,7 @@ struct MainTasksList: View {
             }
         }
         
-        
+        }
         
     }
     
