@@ -8,29 +8,44 @@
 import SwiftUI
 
 struct MainTasksList: View {
-    
+
     // @StateObject private var tasksViewModel: tasksViewModel = tasksViewModel()
-    @State var showForm: Bool = false
-    
+    @State private var showForm: Bool = false
+    @State private var showPlay: Bool = false
+
     @StateObject var tasksViewModel: TasksViewModel = TasksViewModel()
     // @State var innerTasks: [Task]
     
     
     var body: some View {
+        
+        
         NavigationView {
+            
             ZStack {
-                NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel, showForm: $showForm) , isActive: $showForm) {
+                
+                VStack {
+                
+                NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel) , isActive: $showForm) {
                     EmptyView()
                 }
+                NavigationLink(destination: PlayTaskView() , isActive: $showPlay) {
+                    EmptyView()
+                }
+                    
+                }
                 List {
+                    
                     ForEach(tasksViewModel.tasks) { task in
                         VStack(alignment: .leading) {
+                            
                             Text(task.label)
                                 .font(.title)
                                 .foregroundColor(Color.orange)
                                 .bold()
-                                .padding(.bottom)
+                                
                             Text(task.convertDateFormatter(date: task.startDateTime))
+                            
                             ForEach(task.subtasks) { subtask in
                                 HStack {
                                     Text("- " + subtask.label)
@@ -40,55 +55,59 @@ struct MainTasksList: View {
                             }
                             
                             HStack {
-                                
                                 Button(action: {
-                                    showForm = true
+                                    showForm.toggle()
                                 }, label: {
                                     Text("Edit")
                                 })
-                                .padding(.all, 16.0)
+                                .padding(16.0)
+                                .background(Color.yellow
+                                                .opacity(0.5))
                                 Spacer()
+                                
                                 Button(action: {
-                                    showForm = true
+                                    showPlay = true
                                 }, label: {
                                     Image(systemName: "play.fill")
                                 })
                                 .padding(.all, 16.0)
+                                .background(Color.yellow
+                                                .opacity(0.5))
                             }
+                            .frame(maxWidth: .infinity)
                             
                         }
                         .padding(.all, 16.0)
                         
                         
-                    }
-                    // .onDelete(perform: removeRows)
-                    // .onMove(perform: moveUser)
-                }
-                
-                
-                .listStyle(InsetGroupedListStyle())
-                .navigationTitle("My Tasks")
-                .toolbar {
-                    ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
-                        Button(action: {
-                            showForm = true
-                        }, label: {
-                            Image(systemName: "plus.square.on.square")
-                                .renderingMode(.template)
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(Color("AccentColor"))
-                                .accentColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
-                        })
-                        .foregroundColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
-                    }
-                }
+                    } // ForEach
+                    .frame(maxWidth: .infinity)
+
+                } // List
+                .listStyle(InsetListStyle())
                 
             }
-            
+            .navigationTitle("My Tasks")
+            .toolbar {
+                ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
+                    Button(action: {
+                        showForm.toggle()
+                    }, label: {
+                        Image(systemName: "plus.square.on.square")
+                            .renderingMode(.template)
+                            .aspectRatio(contentMode: .fit)
+                            .foregroundColor(Color("AccentColor"))
+                            .accentColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
+                    })
+                    .foregroundColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
+                }
+            }
         }
         
         
+        
     }
+    
     
 }
 
