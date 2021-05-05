@@ -16,7 +16,7 @@ struct MainTasksList: View {
     @StateObject var tasksViewModel: TasksViewModel = TasksViewModel()
     // @State var innerTasks: [Task]
 
-
+    
     var body: some View {
         
         NavigationView {
@@ -30,6 +30,9 @@ struct MainTasksList: View {
                     }
                     
                     List {
+                          
+                        Text("Here are your first tasks, you can delete them with the edit button and create some new ones with the create icon on the top right.")
+                            .padding()
                         
                         ForEach(tasksViewModel.tasks) { task in
                             
@@ -49,6 +52,15 @@ struct MainTasksList: View {
                         } // ForEach
                         .onDelete(perform: delete)
                         .frame(maxWidth: .infinity)
+                        
+                        Text("You will get a notification for each task at the time and on the days you chose.")
+                            .padding()
+                        
+                        Image("background")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .padding([.leading, .bottom, .trailing], -11.0)
+                            .background(Color.black)
                         
                     } // List
                     .toolbar {
@@ -71,9 +83,15 @@ struct MainTasksList: View {
                         })
                         .foregroundColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
                     }
-                } // toolbar
+                }// toolbar
             } // VStack
         } // ZStack
+        .onAppear {
+            tasksViewModel.storeData()
+            tasksViewModel.readData()
+            let path = "/" + NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .userDomainMask, true)[0].split(separator: "/").dropLast(1).map(String.init).joined(separator: "/") + "/Library/Preferences"
+            print("path: \(path)")
+        }
     } // NavigationView
     
 } // body

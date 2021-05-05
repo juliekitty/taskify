@@ -9,9 +9,8 @@ import Foundation
 
 let weekdays: [String]  = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-
-class Task: Identifiable {
-    let ID: UUID = UUID()
+class Task: Identifiable, Codable {
+    var ID: UUID = UUID()
     let label: String
     let startDateTime: Date
     var recurring: [Bool] = [false, false, false, false, false, false, false] // sunday, monday, tuesday, wednesday, thursday, friday, saturday
@@ -71,12 +70,7 @@ class Task: Identifiable {
                 print("add notification on \(weekdays[index])")
                 
                 manager.addNotification(title: self.label)
-                
-                
-                
-                // get the current date and time
-                let currentDateTime = Date()
-
+             
                 // get the user's calendar
                 let userCalendar = Calendar.current
 
@@ -108,7 +102,7 @@ class Task: Identifiable {
 }
 
 
-class SubTask: Identifiable {
+class SubTask: Identifiable, Codable {
     let label: String
     let duration: Int
     init(label: String, duration: Int) {
