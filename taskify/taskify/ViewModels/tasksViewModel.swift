@@ -7,34 +7,10 @@
 
 import SwiftUI
 
-class User: Codable {
-    let name: String
-    let age: Int
-    
-    init(name: String, age: Int) {
-        self.name = name
-        self.age = age
-    }
-    
-}
-
-
-struct MyDataObject: Codable {
-    let name: String
-    let age: Int
-    let num: Double
-    let onOff: Bool
-    let date: Date
-    let user: User
-}
-
-
 class TasksViewModel: ObservableObject {
     @Published var tasks: [Task] = [Task]()
     
     @AppStorage("tasks") private var dataForAppStorage: Data = Data()
-    @State private var dataObjectFromAppStorage: MyDataObject? // = MyDataObject()
-    @State private var dataReadFromAppStorage: Bool = false
 
     internal init() {
         self.tasks = fillTasks()
@@ -77,22 +53,19 @@ class TasksViewModel: ObservableObject {
     }
     
     func readData() {
-        guard let loadedDataObject = try?  JSONDecoder().decode(MyDataObject.self, from: dataForAppStorage) else { return }
-        
-        dataReadFromAppStorage = true
-        dataObjectFromAppStorage = loadedDataObject
+        guard let loadedDataObject = try?  JSONDecoder().decode([Task].self, from: dataForAppStorage) else { print("not read"); return }
+        print("read \(String(describing: loadedDataObject ))")
     }
     
     func storeData() {
-        let user = User(name: "Tom", age: 0)
-        let dataToSave: MyDataObject = MyDataObject(name: "Uwe", age: 12, num: 3.4, onOff: false, date: Date(), user: user)
-
-        guard let dataToSaveData: Data = try? JSONEncoder().encode(dataToSave) else { return }
+        let tasksArrayToSave: [Task] = self.tasks
+        guard let dataToSaveData: Data = try? JSONEncoder().encode(tasksArrayToSave) else { print("not saved"); return }
+        print("save \(String(describing: dataToSaveData ))")
         self.dataForAppStorage = dataToSaveData
     }
     
     func addTask(newTask: Task) {
         self.tasks.append(newTask)
-        
+        self.storeData()
     }
 }

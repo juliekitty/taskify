@@ -7,22 +7,18 @@
 
 import SwiftUI
 
-
-
 struct MainTasksList: View {
     
     // @StateObject private var tasksViewModel: tasksViewModel = tasksViewModel()
     @State private var selection: String? = nil
     @StateObject var tasksViewModel: TasksViewModel = TasksViewModel()
     // @State var innerTasks: [Task]
-
+    
     
     var body: some View {
         
         NavigationView {
-            
             ZStack {
-                
                 VStack {
                     
                     NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel), tag: "Second", selection: $selection) {
@@ -30,7 +26,7 @@ struct MainTasksList: View {
                     }
                     
                     List {
-                          
+                        
                         Text("Here are your first tasks, you can delete them with the edit button and create some new ones with the create icon on the top right.")
                             .padding()
                         
@@ -86,7 +82,12 @@ struct MainTasksList: View {
                 }// toolbar
             } // VStack
         } // ZStack
-        
+        .onAppear {
+            tasksViewModel.readData()
+            /* let path = "/" + NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .userDomainMask, true)[0].split(separator: "/").dropLast(1).map(String.init).joined(separator: "/") + "/Library/Preferences"
+             print("path: \(path)")
+             */
+        }
     } // NavigationView
     
 } // body
@@ -94,12 +95,6 @@ struct MainTasksList: View {
 func delete(at offsets: IndexSet) {
     print("delete a task")
 }
-
-// place this function in a .onAppear() lifecycle call on your root view
-// credit to apple https://developer.apple.com/documentation/uikit/text_display_and_fonts/adding_a_custom_font_to_your_app
-// Created By: Brady Murphy
-
-
 
 struct ContentView_Previews: PreviewProvider {
     
