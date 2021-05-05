@@ -38,20 +38,20 @@ struct AddTaskView: View {
                     VStack {
                         Text("Recurring on:")
                         HStack {
-                            ToggleRow(weekday: weekdays[0], selection: $weekdaysToggle[0] )
-                            ToggleRow(weekday: weekdays[1], selection: $weekdaysToggle[1] )
+                            ToggleRow(weekday: weekdays[1], selection: $weekdaysToggle[0] )
+                            ToggleRow(weekday: weekdays[2], selection: $weekdaysToggle[1] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[2], selection: $weekdaysToggle[2] )
-                            ToggleRow(weekday: weekdays[3], selection: $weekdaysToggle[3] )
+                            ToggleRow(weekday: weekdays[3], selection: $weekdaysToggle[2] )
+                            ToggleRow(weekday: weekdays[4], selection: $weekdaysToggle[3] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[4], selection: $weekdaysToggle[4] )
+                            ToggleRow(weekday: weekdays[5], selection: $weekdaysToggle[4] )
                             Spacer(minLength: 170)
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[5], selection: $weekdaysToggle[5] )
-                            ToggleRow(weekday: weekdays[6], selection: $weekdaysToggle[6] )
+                            ToggleRow(weekday: weekdays[6], selection: $weekdaysToggle[5] )
+                            ToggleRow(weekday: weekdays[0], selection: $weekdaysToggle[6] )
                         }
                     } // VStack
                     
@@ -59,10 +59,9 @@ struct AddTaskView: View {
                         if (label.isEmpty) {
                             self.showValidationAlert = true
                         } else {
-                            let newTask = Task(label: label, timeStamp: date)
-                            newTask.addRecurring(weekdays: weekdaysToggle)
-                            let newList = tasksViewModel.addTask(newTask: newTask)
-                            print(weekdaysToggle)
+                            let newTask = Task(label: label, timeStamp: date, recurring: weekdaysToggle)
+                            tasksViewModel.addTask(newTask: newTask)
+                            presentationMode.wrappedValue.dismiss()
                         }
                         
                     }, label: {
@@ -73,7 +72,7 @@ struct AddTaskView: View {
                 .navigationTitle("Add a Task")
                 .navigationBarTitleDisplayMode( .large)
                 .alert(isPresented: $showValidationAlert) {
-                    Alert(title: Text("Validation"), message: Text("Please enter a label."), dismissButton: .default(Text("OK")))
+                    Alert(title: Text("Validation"), message: Text("Please enter a short description of your task in the label field"), dismissButton: .default(Text("OK")))
                 }
                 
                 

@@ -93,7 +93,7 @@ struct ThreeView: View {
 
 struct PlayTaskView_Previews: PreviewProvider {
     static var previews: some View {
-        let myTask = Task(label: "Prepare for school", timeStamp: Date()-15*86400)
+        let myTask = Task(label: "Prepare for school", timeStamp: Date()-15*86400, recurring: [true, true, true, true,true,false,false])
 
         PlayTaskView(task: myTask)
     }

@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct taskifyApp: App {
+        
     var body: some Scene {
         WindowGroup {
             MainTasksList()
