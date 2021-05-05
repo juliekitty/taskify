@@ -42,9 +42,9 @@ class TasksViewModel: ObservableObject {
     private func fillTasks() -> [Task] {
         
         let morningDateTime = Date.from(year: 2021, month: 05, day: 05, hour: 7, minute: 30)
+        let description = "Sample task"
         
-        
-        let morning: Task = Task(label: "Prepare for school", timeStamp: morningDateTime!, recurring: [false, true, true, true, true, true, false])
+        let morning: Task = Task(label: "Prepare for school", timeStamp: morningDateTime!, recurring: [false, true, true, true, true, true, false], description: description)
         morning.addSubtask(newTask: SubTask(
                             label: "Dress up",
                             duration: 3))
@@ -58,7 +58,7 @@ class TasksViewModel: ObservableObject {
         
         let bedtimeDateTime = Date.from(year: 2021, month: 05, day: 05, hour: 20, minute: 00)
         
-        let bedtime: Task = Task(label: "Go to bed Routine", timeStamp: bedtimeDateTime!, recurring: [false, true, true, true, true, false, false])
+        let bedtime: Task = Task(label: "Go to bed Routine", timeStamp: bedtimeDateTime!, recurring: [false, true, true, true, true, false, false], description: description)
         bedtime.addSubtask(newTask: SubTask(
                             label: "Check your schoolbag",
                             duration: 3))

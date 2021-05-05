@@ -86,12 +86,7 @@ struct MainTasksList: View {
                 }// toolbar
             } // VStack
         } // ZStack
-        .onAppear {
-            tasksViewModel.storeData()
-            tasksViewModel.readData()
-            let path = "/" + NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .userDomainMask, true)[0].split(separator: "/").dropLast(1).map(String.init).joined(separator: "/") + "/Library/Preferences"
-            print("path: \(path)")
-        }
+        
     } // NavigationView
     
 } // body

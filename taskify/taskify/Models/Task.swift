@@ -12,12 +12,14 @@ let weekdays: [String]  = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday
 class Task: Identifiable, Codable {
     var ID: UUID = UUID()
     let label: String
+    let description: String
     let startDateTime: Date
     var recurring: [Bool] = [false, false, false, false, false, false, false] // sunday, monday, tuesday, wednesday, thursday, friday, saturday
     var subtasks: [SubTask]
     
-    init(label: String, timeStamp: Date, recurring: [Bool]) {
+    init(label: String, timeStamp: Date, recurring: [Bool], description: String) {
         self.label = label
+        self.description = description
         self.startDateTime = timeStamp
         self.subtasks = []
         self.recurring = recurring

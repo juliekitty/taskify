@@ -7,6 +7,7 @@ struct AddTaskView: View {
     
     // default values for task form
     @State var label: String = ""
+    @State var description: String = ""
     @State private var date = Date()
     @State var weekdaysToggle: [Bool] = [false, false, false, false,false,false,false]
     
@@ -15,19 +16,29 @@ struct AddTaskView: View {
     @State var showSubtasksSheetView = false
     @State var showValidationAlert = false
     
-    
-    
     var body: some View {
         ZStack {
             
             VStack {
                 
                 Form {
-                    HStack {
+                    VStack(alignment: .leading) {
+                        Text("Label")
+                            .padding(.top)
                         TextField("Label", text: $label)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        
+                        Text("Description")
+                            .padding(.top)
+                        TextEditor(text: $description)
+                            .frame(height: 100.0)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.neuGray, lineWidth: 1)
+                            )
                     }
-                    
-                    HStack {
+                    .padding(.bottom)
+                    VStack {
                         DatePicker(
                             "Start date",
                             selection: $date,
@@ -35,6 +46,7 @@ struct AddTaskView: View {
                             displayedComponents: [.date, .hourAndMinute]
                         )
                     }
+                    .padding()
                     VStack {
                         Text("Recurring on:")
                         HStack {
@@ -54,12 +66,12 @@ struct AddTaskView: View {
                             ToggleRow(weekday: weekdays[0], selection: $weekdaysToggle[6] )
                         }
                     } // VStack
-                    
+                    .padding(.vertical)
                     Button(action: {
                         if (label.isEmpty) {
                             self.showValidationAlert = true
                         } else {
-                            let newTask = Task(label: label, timeStamp: date, recurring: weekdaysToggle)
+                            let newTask = Task(label: label, timeStamp: date, recurring: weekdaysToggle, description: description)
                             tasksViewModel.addTask(newTask: newTask)
                             presentationMode.wrappedValue.dismiss()
                         }
@@ -75,35 +87,36 @@ struct AddTaskView: View {
                     Alert(title: Text("Validation"), message: Text("Please enter a short description of your task in the label field"), dismissButton: .default(Text("OK")))
                 }
                 
-                
-                Button(action: {
-                    self.showSubtasksSheetView.toggle()
-                }) {
-                    Text("Add subtasks")
-                }.sheet(isPresented: $showSubtasksSheetView) {
-                    subtasksSheetView(showSubtasksSheetView: self.$showSubtasksSheetView)
-                } // sheet
-                
-                
-                Button("Delete this task") {
-                    showDeleteActionSheet = true
-                }
-                .actionSheet(isPresented: $showDeleteActionSheet) {
-                    ActionSheet(title: Text("Delete task"),
-                                message: Text("Are you sure you want to delete this task?"),
-                                buttons: [
-                                    .cancel(),
-                                    .destructive(
-                                        Text("Delete this task and substasks"),
-                                        action: ({
-                                            print("Delete")
-                                        }
-                                        
-                                        )
-                                    )
-                                ]
-                    )
-                } // actionSheet
+                /*
+                 Button(action: {
+                 self.showSubtasksSheetView.toggle()
+                 }) {
+                 Text("Add subtasks")
+                 }.sheet(isPresented: $showSubtasksSheetView) {
+                 subtasksSheetView(showSubtasksSheetView: self.$showSubtasksSheetView)
+                 } // sheet
+                 
+                 
+                 Button("Delete this task") {
+                 showDeleteActionSheet = true
+                 }
+                 .actionSheet(isPresented: $showDeleteActionSheet) {
+                 ActionSheet(title: Text("Delete task"),
+                 message: Text("Are you sure you want to delete this task?"),
+                 buttons: [
+                 .cancel(),
+                 .destructive(
+                 Text("Delete this task and substasks"),
+                 action: ({
+                 print("Delete")
+                 }
+                 
+                 )
+                 )
+                 ]
+                 )
+                 } // actionSheet
+                 */
                 
             } // VStack
         } // ZStack

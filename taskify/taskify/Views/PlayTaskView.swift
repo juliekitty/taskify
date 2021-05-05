@@ -5,27 +5,37 @@ struct PlayTaskView: View {
     @State var task: Task
     
     var body: some View {
-        
+        /*
         NavigationView {
             FirstView
                 .navigationTitle(task.label)
                 .navigationBarTitleDisplayMode(.large)
         }
         .navigationViewStyle(StackNavigationViewStyle())
+ */
+        
+        FirstView
+            .navigationTitle(task.label)
     }
     
     private var FirstView: some View {
             
             ZStack() {
-                Color.red
-                Text(task.label)
+                Color.neuGray
+                VStack(alignment: .leading) {
+
+                    Text(task.description)
+                        .multilineTextAlignment(.leading)
+                    
+                }
                 
+                /*
                 NavigationLink(
                     destination: SecondView()) {
                     Image(systemName: "arrow.right")
                         .font(Font.system(size: 60, weight: .black))
                 }
-
+                */
             }
         
     }
@@ -33,7 +43,7 @@ struct PlayTaskView: View {
 }
 
 
-
+/*
 struct SecondView: View {
     @State var showThreeView: Bool = false // bool zum aktivieren des Links zu ThreeView() der bool wird programmatisch gesetzt > es ict nicht notwndig, der die Schaltflaechen Oben im Menu betaetigt werden
     
@@ -88,12 +98,12 @@ struct ThreeView: View {
         }
     }
 }
-
+*/
 
 
 struct PlayTaskView_Previews: PreviewProvider {
     static var previews: some View {
-        let myTask = Task(label: "Prepare for school", timeStamp: Date()-15*86400, recurring: [true, true, true, true,true,false,false])
+        let myTask = Task(label: "Prepare for school", timeStamp: Date()-15*86400, recurring: [true, true, true, true,true,false,false], description: "description")
 
         PlayTaskView(task: myTask)
     }
