@@ -39,9 +39,10 @@ class Task: Identifiable, Codable {
         } else {
             for (index, element) in self.recurring.enumerated() {
                 if (element) {
-                    returnStr = returnStr + " " + weekdays[index]
+                    returnStr = returnStr + " " + weekdays[index] + ","
                 }
-            }            
+            }
+            returnStr = "every" + returnStr.dropLast()       
         }
         return returnStr
     }

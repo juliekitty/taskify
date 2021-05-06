@@ -1,8 +1,8 @@
 import SwiftUI
 
 extension Color {
-    static let neuBackground = Color(hex: "f0f0f3")
-    static let neuGray = Color(hex: "E1E1E1")
+    static let teal = Color(hex: "006E80")
+    static let lightGrey = Color(hex: "E1E1E1")
 }
 
 extension Color {

@@ -21,7 +21,7 @@ struct PlayTaskView: View {
     private var FirstView: some View {
             
             ZStack() {
-                Color.neuGray
+                Color.lightGrey
                 VStack(alignment: .leading) {
 
                     Text(task.description)
