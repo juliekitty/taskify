@@ -22,13 +22,11 @@ struct MainTasksList: View {
             ZStack {
                 VStack {
                     
-                    NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel), tag: "Second", selection: $selection) {
+                    NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel), tag: "addTaskTag", selection: $selection) {
                         EmptyView()
                     }
                     
-                    
                     listView
-                    
                     
                     Button(action: {
                         self.showWelcomeSheetView.toggle()
@@ -43,13 +41,17 @@ struct MainTasksList: View {
                 .toolbar {
                     ToolbarItem(placement: ToolbarItemPlacement.navigationBarTrailing) {
                         Button(action: {
-                            self.selection = "Second"
+                            self.selection = "addTaskTag"
                         }, label: {
-                            Image(systemName: "plus.square.on.square")
-                                .renderingMode(.template)
-                                .aspectRatio(contentMode: .fit)
-                                .foregroundColor(Color("AccentColor"))
-                                .accentColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
+                            VStack{
+                                
+                                Image(systemName: "plus.square.on.square")
+                                    .renderingMode(.template)
+                                    .aspectRatio(contentMode: .fit)
+                                    .foregroundColor(Color("AccentColor"))
+                                    .accentColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
+                                Text("Add")
+                            }
                         })
                         .foregroundColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
                     }
@@ -81,12 +83,29 @@ struct MainTasksList: View {
     }
     
     var emptyListView: some View {
-        VStack {
+        VStack(alignment: .center) {
             
             
-            Text("You currently have no task in your todolist!\nCreate a new one with the add icon.")
-                
+            Text("You currently have no task in your todolist!")
                 .padding()
+            Text("Create a new one:")
+                .padding()
+                
+            Button(action: {
+                self.selection = "addTaskTag"
+            }, label: {
+                VStack{
+                    
+                    Image(systemName: "plus.square.on.square")
+                        .renderingMode(.template)
+                        .aspectRatio(contentMode: .fit)
+                        .foregroundColor(Color("AccentColor"))
+                        .accentColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
+                    Text("Add")
+                }
+                .padding()
+            })
+            .foregroundColor(/*@START_MENU_TOKEN@*/.orange/*@END_MENU_TOKEN@*/)
             
         }
     }
