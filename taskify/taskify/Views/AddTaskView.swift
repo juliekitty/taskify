@@ -34,7 +34,7 @@ struct AddTaskView: View {
                             .frame(height: 100.0)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.neuGray, lineWidth: 1)
+                                    .stroke(Color.lightGrey, lineWidth: 1)
                             )
                     }
                     .padding(.bottom)
@@ -50,20 +50,20 @@ struct AddTaskView: View {
                     VStack {
                         Text("Recurring on:")
                         HStack {
-                            ToggleRow(weekday: weekdays[1], selection: $weekdaysToggle[0] )
-                            ToggleRow(weekday: weekdays[2], selection: $weekdaysToggle[1] )
+                            ToggleRow(weekday: weekdays[1], selection: $weekdaysToggle[1] )
+                            ToggleRow(weekday: weekdays[2], selection: $weekdaysToggle[2] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[3], selection: $weekdaysToggle[2] )
-                            ToggleRow(weekday: weekdays[4], selection: $weekdaysToggle[3] )
+                            ToggleRow(weekday: weekdays[3], selection: $weekdaysToggle[3] )
+                            ToggleRow(weekday: weekdays[4], selection: $weekdaysToggle[4] )
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[5], selection: $weekdaysToggle[4] )
+                            ToggleRow(weekday: weekdays[5], selection: $weekdaysToggle[5] )
                             Spacer(minLength: 170)
                         }
                         HStack {
-                            ToggleRow(weekday: weekdays[6], selection: $weekdaysToggle[5] )
-                            ToggleRow(weekday: weekdays[0], selection: $weekdaysToggle[6] )
+                            ToggleRow(weekday: weekdays[6], selection: $weekdaysToggle[6] )
+                            ToggleRow(weekday: weekdays[0], selection: $weekdaysToggle[0] )
                         }
                     } // VStack
                     .padding(.vertical)
@@ -143,6 +143,7 @@ struct ToggleRow: View {
 }
 
 // Display a View with an editable List of subtask
+// currently not used
 struct subtasksList: View {
     @State var subTasks:[SubTask] = []
     
@@ -170,6 +171,7 @@ struct subtasksList: View {
 }
 
 // Display a View to use in the subtasksSheetView
+// currently not used
 struct subtasksSheetView: View {
     @Binding var showSubtasksSheetView: Bool
     
