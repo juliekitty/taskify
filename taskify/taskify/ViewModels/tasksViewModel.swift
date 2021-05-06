@@ -68,4 +68,10 @@ class TasksViewModel: ObservableObject {
         self.tasks.append(newTask)
         self.storeData()
     }
+    
+    func deleteTask(at offsets: IndexSet) {
+        self.tasks.remove(atOffsets: offsets)
+        //TODO: delete the notifications planned for this task
+        self.storeData()
+    }
 }
