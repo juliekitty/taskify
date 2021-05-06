@@ -4,7 +4,8 @@ import SwiftUI
 struct welcomeSheetView: View {
     @Binding var showWelcomeSheetView: Bool
     @Environment(\.presentationMode) var presentationMode
-    
+    @AppStorage("welcomeSheet") var welcomeSheetDone: Bool = false
+
     var body: some View {
         NavigationView {
             
@@ -82,6 +83,7 @@ struct welcomeSheetView: View {
                 
                 Button {
                     presentationMode.wrappedValue.dismiss()
+                    welcomeSheetDone = true
                 } label: {
                     Text("Continue")
                         .fontWeight(.medium)

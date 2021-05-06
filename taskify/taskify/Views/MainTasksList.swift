@@ -12,8 +12,8 @@ struct MainTasksList: View {
     // @StateObject private var tasksViewModel: tasksViewModel = tasksViewModel()
     @State private var selection: String? = nil
     @StateObject var tasksViewModel: TasksViewModel = TasksViewModel()
-    // @State var innerTasks: [Task]
-    
+    @AppStorage("welcomeSheet") var welcomeSheetDone: Bool = false
+
     @State var showWelcomeSheetView = false
     
     var body: some View {
@@ -60,7 +60,9 @@ struct MainTasksList: View {
         } // ZStack
         .onAppear {
             tasksViewModel.readData()
-            showWelcomeSheetView = true
+            if (welcomeSheetDone == false) {
+                showWelcomeSheetView = true
+            }            
             /* let path = "/" + NSSearchPathForDirectoriesInDomains(FileManager.SearchPathDirectory.documentDirectory, .userDomainMask, true)[0].split(separator: "/").dropLast(1).map(String.init).joined(separator: "/") + "/Library/Preferences"
              print("path: \(path)")
              */
