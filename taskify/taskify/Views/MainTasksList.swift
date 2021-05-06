@@ -26,46 +26,9 @@ struct MainTasksList: View {
                         EmptyView()
                     }
                     
-                    List {
-                        
-                        Text("Here are your tasks!\nDelete them with the edit button\nCreate new with the add icon.")
-                            .padding()
-                        
-                        ForEach(tasksViewModel.tasks) { task in
-                            
-                            NavigationLink(destination: PlayTaskView(task: task)) {
-                                VStack(alignment: .leading) {
-                                    Text(task.label)
-                                        .font(.title)
-                                        .foregroundColor(Color.orange)
-                                    
-                                    
-                                    Text(task.displayRecurring())
-                                    
-                                    Text(task.convertDateFormatter(date: task.startDateTime))
-                                        .foregroundColor(.gray)
-                                }
-                            }
-                            .padding(16.0)
-                            
-                        } // ForEach
-                        .onDelete(perform: deleteTask)
-                        .frame(maxWidth: .infinity)
-                        
-                        Text("You will get notifications for each task on the chosen time and day.")
-                            .padding()
-                        
-                        Image("background")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .padding([.leading, .bottom, .trailing], -11.0)
-                            .background(Color.black)
-                        
-                    } // List
-                    .toolbar {
-                        EditButton()
-                    }
-                    // .listStyle(InsetListStyle())
+                    
+                    listView
+                    
                     
                     Button(action: {
                         self.showWelcomeSheetView.toggle()
@@ -102,8 +65,84 @@ struct MainTasksList: View {
         }
     } // NavigationView
     
+    
     func deleteTask(at offsets: IndexSet) {
         tasksViewModel.deleteTask(at: offsets)
     }
     
+    
+    @ViewBuilder
+    var listView: some View {
+        if tasksViewModel.tasks.isEmpty {
+            emptyListView
+        } else {
+            tasksListView
+        }
+    }
+    
+    var emptyListView: some View {
+        VStack {
+            
+            
+            Text("You currently have no task in your todolist!\nCreate a new one with the add icon.")
+                
+                .padding()
+            
+        }
+    }
+    
+    var tasksListView: some View {
+        List {
+            
+            Text("Here are your tasks!\nDelete them with the edit button\nCreate new with the add icon.")
+                .padding()
+            
+            ForEach(tasksViewModel.tasks) { task in
+                
+                NavigationLink(destination: PlayTaskView(task: task)) {
+                    VStack(alignment: .leading) {
+                        Text(task.label)
+                            .font(.title)
+                            .foregroundColor(Color.orange)
+                        
+                        
+                        Text(task.displayRecurring())
+                        
+                        Text(task.convertDateFormatter(date: task.startDateTime))
+                            .foregroundColor(.gray)
+                    }
+                }
+                .padding(16.0)
+                
+            } // ForEach
+            .onDelete(perform: deleteTask)
+            .frame(maxWidth: .infinity)
+            
+            Text("You will get notifications for each task on the chosen time and day.")
+                .padding()
+            
+            Image("background")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .padding([.leading, .bottom, .trailing], -11.0)
+                .background(Color.black)
+            
+        } // List
+        .toolbar {
+            EditButton()
+        }
+        // .listStyle(InsetListStyle())
+    }
+    
+    
 } // body
+
+
+struct MainTasksList_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        let tasksViewModel: TasksViewModel = TasksViewModel()
+        
+        MainTasksList(tasksViewModel: tasksViewModel, showWelcomeSheetView: false)
+    }
+}
