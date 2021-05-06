@@ -68,36 +68,63 @@ class Task: Identifiable, Codable {
     func addNotification() -> Void {
         let manager = LocalNotificationManager()
         manager.requestPermission()
-        for (index, weekday) in self.recurring.enumerated() {
-            if (weekday) {
-                print("add notification on \(weekdays[index])")
-                
-                manager.addNotification(title: self.label)
-             
-                // get the user's calendar
-                let userCalendar = Calendar.current
+        
+        if self.recurring.allSatisfy({ $0 == false }) {
+            
+            print("\nadd unique notification on \(startDateTime)")
+                        
+            // get the user's calendar
+            let userCalendar = Calendar.current
+            
+            // choose which date and time components are needed
+            let requestedComponents: Set<Calendar.Component> = [
+                .year,
+                .month,
+                .day,
+                .hour,
+                .minute
+            ]
+            
+            let dateTimeComponents = userCalendar.dateComponents(requestedComponents, from: startDateTime)
+            
+            var dateComponents = DateComponents()
+            dateComponents.timeZone = TimeZone.current
+            dateComponents.year = dateTimeComponents.year
+            dateComponents.month = dateTimeComponents.month
+            dateComponents.day = dateTimeComponents.day
+            dateComponents.hour = dateTimeComponents.hour
+            dateComponents.minute = dateTimeComponents.minute
+            manager.scheduleNotification(title: self.label, date: dateComponents)
 
-                // choose which date and time components are needed
-                let requestedComponents: Set<Calendar.Component> = [
-                    .year,
-                    .month,
-                    .day,
-                    .hour,
-                    .minute
-                ]
-
-                let dateTimeComponents = userCalendar.dateComponents(requestedComponents, from: startDateTime)
-                
-                print("dateTimeComponents \(dateTimeComponents)")
-
-                var dateComponents = DateComponents()
-                dateComponents.weekday = index+1 // 1 = Sunday
-                dateComponents.timeZone = TimeZone(secondsFromGMT: 0)
-                dateComponents.hour = dateTimeComponents.hour
-                dateComponents.minute = dateTimeComponents.minute
-                
-                _ = manager.scheduleNotifications(date: dateComponents)
-                                
+        } else {
+            
+            for (index, weekday) in self.recurring.enumerated() {
+                if (weekday) {
+                    print("\nadd notification on \(weekdays[index])")
+                    
+                    // get the user's calendar
+                    let userCalendar = Calendar.current
+                    
+                    // choose which date and time components are needed
+                    let requestedComponents: Set<Calendar.Component> = [
+                        .year,
+                        .month,
+                        .day,
+                        .timeZone,
+                        .hour,
+                        .minute,
+                        .weekday
+                    ]
+                    
+                    let dateTimeComponents = userCalendar.dateComponents(requestedComponents, from: startDateTime)
+                    
+                    var dateComponents = DateComponents()
+                    dateComponents.weekday = index+1
+                    dateComponents.timeZone = dateTimeComponents.timeZone
+                    dateComponents.hour = dateTimeComponents.hour
+                    dateComponents.minute = dateTimeComponents.minute
+                    manager.scheduleNotification(title: self.label, date: dateComponents)
+                }
             }
         }
         

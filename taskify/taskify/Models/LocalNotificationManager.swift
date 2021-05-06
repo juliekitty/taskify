@@ -17,39 +17,43 @@ class LocalNotificationManager {
                 }
             }
     }
-    
-    
-    func addNotification(title: String) -> Void {
-        notifications.append(Notification(id: UUID().uuidString, title: title))
-    }
-    
-    func scheduleNotifications(date: DateComponents) -> [Notification] {
-        for notification in notifications {
-            let content = UNMutableNotificationContent()
-            content.title = notification.title
-            
-            // after 5 seconds
-            // let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-            
-            /*
-            var date = DateComponents()
-            date.hour = 11
-            date.minute = 10
-             */
-            let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
-            print("Next trigger Date \(String(describing: trigger.nextTriggerDate()))")
-            
-            let request = UNNotificationRequest(identifier: notification.id, content: content, trigger: trigger)
-            
-            UNUserNotificationCenter.current().add(request) { error in
-                guard error == nil else { return }
-                print("Scheduling notification with id: \(notification.id)")
-                
-            }
-        }
+
+    func scheduleNotification(title: String, date: DateComponents) -> Void {
         
-        return notifications
+        let notification = Notification(id: UUID().uuidString, title: title)
+        
+        notifications.append(notification)
+
+        let content = UNMutableNotificationContent()
+        content.title = notification.title
+        
+        // WARNING: only for testing
+        /*
+        // after n seconds
+        let triggerInterval = UNTimeIntervalNotificationTrigger(timeInterval: 7, repeats: false)
+        print("\nNext trigger Date for testing interval \(String(describing: triggerInterval.nextTriggerDate()))")
+
+        let requestInterval = UNNotificationRequest(identifier: notification.id, content: content,
+           trigger:triggerInterval)
+
+        UNUserNotificationCenter.current().add(requestInterval){ error in
+            guard error == nil else { return }
+         }
+        // End after n seconds
+        */
+        
+        let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
+        print("\nNext trigger Date \(String(describing: trigger.nextTriggerDate()))")
+        
+        let request = UNNotificationRequest(identifier: notification.id, content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) { error in
+            guard error == nil else { return }
+        }
     }
+    
+    
+
 }
 
 

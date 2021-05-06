@@ -11,7 +11,8 @@ class TasksViewModel: ObservableObject {
     @Published var tasks: [Task] = [Task]()
     
     @AppStorage("tasks") private var dataForAppStorage: Data = Data()
-
+    
+    /*
     internal init() {
         self.tasks = fillTasks()
     }
@@ -51,9 +52,10 @@ class TasksViewModel: ObservableObject {
         
         return sampleTasks
     }
-    
+    */
     func readData() {
         guard let loadedDataObject = try?  JSONDecoder().decode([Task].self, from: dataForAppStorage) else { print("not read"); return }
+        self.tasks = loadedDataObject
         print("read \(String(describing: loadedDataObject ))")
     }
     
