@@ -6,7 +6,6 @@ struct Notification {
 }
 
 class LocalNotificationManager {
-    var notifications = [Notification]()
     
     func requestPermission() -> Void {
         UNUserNotificationCenter
@@ -17,30 +16,28 @@ class LocalNotificationManager {
                 }
             }
     }
-
-    func scheduleNotification(title: String, date: DateComponents) -> Void {
+    
+    func scheduleNotification(title: String, date: DateComponents) -> String {
         
         let notification = Notification(id: UUID().uuidString, title: title)
-        
-        notifications.append(notification)
-
+               
         let content = UNMutableNotificationContent()
         content.title = notification.title
         
         // WARNING: only for testing
         /*
-        // after n seconds
-        let triggerInterval = UNTimeIntervalNotificationTrigger(timeInterval: 7, repeats: false)
-        print("\nNext trigger Date for testing interval \(String(describing: triggerInterval.nextTriggerDate()))")
-
-        let requestInterval = UNNotificationRequest(identifier: notification.id, content: content,
-           trigger:triggerInterval)
-
-        UNUserNotificationCenter.current().add(requestInterval){ error in
-            guard error == nil else { return }
+         // after n seconds
+         let triggerInterval = UNTimeIntervalNotificationTrigger(timeInterval: 7, repeats: false)
+         print("\nNext trigger Date for testing interval \(String(describing: triggerInterval.nextTriggerDate()))")
+         
+         let requestInterval = UNNotificationRequest(identifier: notification.id, content: content,
+         trigger:triggerInterval)
+         
+         UNUserNotificationCenter.current().add(requestInterval){ error in
+         guard error == nil else { return }
          }
-        // End after n seconds
-        */
+         // End after n seconds
+         */
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
         print("\nNext trigger Date \(String(describing: trigger.nextTriggerDate()))")
@@ -50,10 +47,29 @@ class LocalNotificationManager {
         UNUserNotificationCenter.current().add(request) { error in
             guard error == nil else { return }
         }
+        
+        return notification.id
     }
     
-    
+    func deleteNotification(ids: [String]) {
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+                   print("\(requests.count) requests -------")
+                   for request in requests{
+                       print(request.identifier)
+                   }
+               })
 
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
+        // UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+                   print("\(requests.count) requests -------")
+                   for request in requests{
+                       print(request.identifier)
+                   }
+               })
+    }
+    
 }
 
 

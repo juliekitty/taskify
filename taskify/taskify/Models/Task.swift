@@ -16,6 +16,7 @@ class Task: Identifiable, Codable {
     let startDateTime: Date
     var recurring: [Bool] = [false, false, false, false, false, false, false] // sunday, monday, tuesday, wednesday, thursday, friday, saturday
     var subtasks: [SubTask]
+    var notificationsId: [String] = []
     
     init(label: String, timeStamp: Date, recurring: [Bool], description: String) {
         self.label = label
@@ -94,7 +95,7 @@ class Task: Identifiable, Codable {
             dateComponents.day = dateTimeComponents.day
             dateComponents.hour = dateTimeComponents.hour
             dateComponents.minute = dateTimeComponents.minute
-            manager.scheduleNotification(title: self.label, date: dateComponents)
+            self.notificationsId.append(manager.scheduleNotification(title: self.label, date: dateComponents))
 
         } else {
             
@@ -123,11 +124,20 @@ class Task: Identifiable, Codable {
                     dateComponents.timeZone = dateTimeComponents.timeZone
                     dateComponents.hour = dateTimeComponents.hour
                     dateComponents.minute = dateTimeComponents.minute
-                    manager.scheduleNotification(title: self.label, date: dateComponents)
+                    
+                    self.notificationsId.append(manager.scheduleNotification(title: self.label, date: dateComponents))
                 }
             }
         }
         
+    } // addNotification
+    
+    
+    func deleteTask() {
+        let manager = LocalNotificationManager()
+
+        manager.deleteNotification(ids: self.notificationsId)
+
     }
 }
 

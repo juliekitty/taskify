@@ -72,6 +72,11 @@ class TasksViewModel: ObservableObject {
     }
     
     func deleteTask(at offsets: IndexSet) {
+
+        // deleteNotification
+        let toRemove = self.tasks[offsets.first!]
+        toRemove.deleteTask()
+        
         self.tasks.remove(atOffsets: offsets)
         //TODO: delete the notifications planned for this task
         self.storeData()
