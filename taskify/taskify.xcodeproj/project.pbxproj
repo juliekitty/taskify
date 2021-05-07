@@ -13,7 +13,6 @@
 		DC6EC299263FDA6C007689C6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC6EC298263FDA6C007689C6 /* Preview Assets.xcassets */; };
 		DC6EC2A4263FE2C2007689C6 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2A3263FE2C2007689C6 /* Task.swift */; };
 		DC6EC2A6263FE321007689C6 /* tasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2A5263FE321007689C6 /* tasksViewModel.swift */; };
-		DC6EC2A9263FE3AF007689C6 /* SampleTasksRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2A8263FE3AF007689C6 /* SampleTasksRepository.swift */; };
 		DC6EC2AB26400029007689C6 /* AddOrEditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2AA26400029007689C6 /* AddOrEditTaskView.swift */; };
 		DC7F78A526426CBA00190370 /* Futura.ttc in Resources */ = {isa = PBXBuildFile; fileRef = DC7F78A426426CBA00190370 /* Futura.ttc */; };
 		DC7F78A726426E7D00190370 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7F78A626426E7D00190370 /* Font.swift */; };
@@ -33,7 +32,6 @@
 		DC6EC29A263FDA6C007689C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC6EC2A3263FE2C2007689C6 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DC6EC2A5263FE321007689C6 /* tasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tasksViewModel.swift; sourceTree = "<group>"; };
-		DC6EC2A8263FE3AF007689C6 /* SampleTasksRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTasksRepository.swift; sourceTree = "<group>"; };
 		DC6EC2AA26400029007689C6 /* AddOrEditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditTaskView.swift; sourceTree = "<group>"; };
 		DC7F78A426426CBA00190370 /* Futura.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Futura.ttc; sourceTree = "<group>"; };
 		DC7F78A626426E7D00190370 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
@@ -74,7 +72,6 @@
 		DC6EC290263FDA6A007689C6 /* taskify */ = {
 			isa = PBXGroup;
 			children = (
-				DC6EC2A7263FE395007689C6 /* Data */,
 				DC6EC2A2263FE2AD007689C6 /* Models */,
 				DC6EC2A1263FE1AC007689C6 /* ViewModels */,
 				DC6EC2A0263FE193007689C6 /* Views */,
@@ -124,14 +121,6 @@
 				DC7F78AC2642D6F600190370 /* Color.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		DC6EC2A7263FE395007689C6 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-				DC6EC2A8263FE3AF007689C6 /* SampleTasksRepository.swift */,
-			);
-			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -214,7 +203,6 @@
 				DC7F78A726426E7D00190370 /* Font.swift in Sources */,
 				DC6EC292263FDA6A007689C6 /* taskifyApp.swift in Sources */,
 				DC7F78A926427B1500190370 /* LocalNotificationManager.swift in Sources */,
-				DC6EC2A9263FE3AF007689C6 /* SampleTasksRepository.swift in Sources */,
 				DC96A72A26412BE90039B0D8 /* PlayTaskView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
