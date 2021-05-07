@@ -60,7 +60,6 @@ class LocalNotificationManager {
                })
 
         UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
-        // UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
                    print("\(requests.count) requests -------")
@@ -68,6 +67,11 @@ class LocalNotificationManager {
                        print(request.identifier)
                    }
                })
+    }
+    
+    // for testing purposes
+    private func deleteAllNotification() {
+        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
     }
     
 }
