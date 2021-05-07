@@ -1,9 +1,8 @@
 import SwiftUI
 
-struct AddTaskView: View {
+struct AddOrEditTaskView: View {
     @Environment(\.presentationMode) var presentationMode
-    
-    @ObservedObject var tasksViewModel: TasksViewModel
+    let tasksViewModel: TasksViewModel
     
     // default values for task form
     @State var label: String = ""
@@ -16,7 +15,14 @@ struct AddTaskView: View {
     @State var showSubtasksSheetView = false
     @State var showValidationAlert = false
     
+    // Edit mode
+    let editedTaskID: UUID
+    @State var editedTaskIndex: Int = -1
+    // retrieve task with UUID
+    @State var editMode: Bool = false
+    
     var body: some View {
+        
         ZStack {
             
             VStack {
@@ -69,19 +75,32 @@ struct AddTaskView: View {
                     .padding(.vertical)
                     Button(action: {
                         if (label.isEmpty) {
+                            // deleteNotifications
                             self.showValidationAlert = true
                         } else {
-                            let newTask = Task(label: label, timeStamp: date, recurring: weekdaysToggle, description: description)
-                            tasksViewModel.addTask(newTask: newTask)
+                            if (self.editMode) {
+                                let newTask = Task(label: label, timeStamp: date, recurring: weekdaysToggle, description: description)
+                                tasksViewModel.replaceTask(index: self.editedTaskIndex, newTask: newTask)
+                            } else {
+                                let newTask = Task(label: label, timeStamp: date, recurring: weekdaysToggle, description: description)
+                                tasksViewModel.addTask(newTask: newTask)
+                            }
                             presentationMode.wrappedValue.dismiss()
+                            presentationMode.wrappedValue.dismiss()
+                            // TODO: find a way to go back to main view
                         }
                         
                     }, label: {
-                        Text("Add")
-                            .frame(maxWidth: .infinity, alignment: .center)
+                        if (self.editMode) {
+                            Text("Edit")
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        } else {
+                            Text("Add")
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        }
                     })
                 } // Form
-                .navigationTitle("Add a Task")
+                .navigationTitle(self.editMode ? "Edit a task" : "Add a Task")
                 .navigationBarTitleDisplayMode( .large)
                 .alert(isPresented: $showValidationAlert) {
                     Alert(title: Text("Validation"), message: Text("Please enter a short description of your task in the label field"), dismissButton: .default(Text("OK")))
@@ -119,8 +138,43 @@ struct AddTaskView: View {
                  */
                 
             } // VStack
+            
+            listView
+            
         } // ZStack
+        .onAppear {
+            if let index = tasksViewModel.tasks.firstIndex(where: { $0.id == editedTaskID }) {
+                let task:Task = tasksViewModel.tasks[index]
+                self.label = task.label
+                self.description = task.description
+                self.date = task.startDateTime
+                self.weekdaysToggle = task.recurring
+                self.editMode = true
+                self.editedTaskIndex = index
+            }
+        }
+        
+        
     } // body
+    
+    
+    
+    
+    @ViewBuilder
+    var listView: some View {
+        //editMode or addMode
+        if let index = tasksViewModel.tasks.firstIndex(where: { $0.id == editedTaskID }) {
+            Text("tasksViewModel \(index)")
+        }
+    }
+    
+    // List empty state
+    var emptyListView: some View {
+        VStack(alignment: .center) {
+            
+        }
+    }
+    
 } // AddTaskView
 
 
@@ -194,6 +248,6 @@ struct subtasksSheetView: View {
 struct AddTaskView_Previews: PreviewProvider {
     static var previews: some View {
         let tasksViewModel: TasksViewModel = TasksViewModel()
-        AddTaskView(tasksViewModel: tasksViewModel)
+        AddOrEditTaskView(tasksViewModel: tasksViewModel, editedTaskID: UUID())
     }
 }

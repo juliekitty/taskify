@@ -14,7 +14,7 @@
 		DC6EC2A4263FE2C2007689C6 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2A3263FE2C2007689C6 /* Task.swift */; };
 		DC6EC2A6263FE321007689C6 /* tasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2A5263FE321007689C6 /* tasksViewModel.swift */; };
 		DC6EC2A9263FE3AF007689C6 /* SampleTasksRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2A8263FE3AF007689C6 /* SampleTasksRepository.swift */; };
-		DC6EC2AB26400029007689C6 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2AA26400029007689C6 /* AddTaskView.swift */; };
+		DC6EC2AB26400029007689C6 /* AddOrEditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC6EC2AA26400029007689C6 /* AddOrEditTaskView.swift */; };
 		DC7F78A526426CBA00190370 /* Futura.ttc in Resources */ = {isa = PBXBuildFile; fileRef = DC7F78A426426CBA00190370 /* Futura.ttc */; };
 		DC7F78A726426E7D00190370 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7F78A626426E7D00190370 /* Font.swift */; };
 		DC7F78A926427B1500190370 /* LocalNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC7F78A826427B1500190370 /* LocalNotificationManager.swift */; };
@@ -34,7 +34,7 @@
 		DC6EC2A3263FE2C2007689C6 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		DC6EC2A5263FE321007689C6 /* tasksViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tasksViewModel.swift; sourceTree = "<group>"; };
 		DC6EC2A8263FE3AF007689C6 /* SampleTasksRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleTasksRepository.swift; sourceTree = "<group>"; };
-		DC6EC2AA26400029007689C6 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
+		DC6EC2AA26400029007689C6 /* AddOrEditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrEditTaskView.swift; sourceTree = "<group>"; };
 		DC7F78A426426CBA00190370 /* Futura.ttc */ = {isa = PBXFileReference; lastKnownFileType = file; path = Futura.ttc; sourceTree = "<group>"; };
 		DC7F78A626426E7D00190370 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		DC7F78A826427B1500190370 /* LocalNotificationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalNotificationManager.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				DC6EC293263FDA6A007689C6 /* MainTasksList.swift */,
-				DC6EC2AA26400029007689C6 /* AddTaskView.swift */,
+				DC6EC2AA26400029007689C6 /* AddOrEditTaskView.swift */,
 				DC96A72926412BE90039B0D8 /* PlayTaskView.swift */,
 				DC7F78A426426CBA00190370 /* Futura.ttc */,
 				DC7F78AE2643E29000190370 /* welcomeSheetView.swift */,
@@ -210,7 +210,7 @@
 				DC6EC294263FDA6A007689C6 /* MainTasksList.swift in Sources */,
 				DC6EC2A4263FE2C2007689C6 /* Task.swift in Sources */,
 				DC7F78AF2643E29000190370 /* welcomeSheetView.swift in Sources */,
-				DC6EC2AB26400029007689C6 /* AddTaskView.swift in Sources */,
+				DC6EC2AB26400029007689C6 /* AddOrEditTaskView.swift in Sources */,
 				DC7F78A726426E7D00190370 /* Font.swift in Sources */,
 				DC6EC292263FDA6A007689C6 /* taskifyApp.swift in Sources */,
 				DC7F78A926427B1500190370 /* LocalNotificationManager.swift in Sources */,

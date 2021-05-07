@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTasksList: View {
     
     @State private var selection: String? = nil
-    // selection: tag for Naviation
+    // selection: tag for Navigation
     @StateObject var tasksViewModel: TasksViewModel = TasksViewModel()
     // tasksViewModel: ViewModel which stores the tasks List
     @AppStorage("welcomeSheet") var welcomeSheetDone: Bool = false
@@ -25,7 +25,7 @@ struct MainTasksList: View {
             ZStack {
                 VStack {
                     
-                    NavigationLink(destination: AddTaskView(tasksViewModel: tasksViewModel), tag: "addTaskTag", selection: $selection) {
+                    NavigationLink(destination: AddOrEditTaskView(tasksViewModel: tasksViewModel, editedTaskID: UUID()), tag: "addTaskTag", selection: $selection) {
                         EmptyView()
                     }
                     
@@ -92,7 +92,6 @@ struct MainTasksList: View {
     var emptyListView: some View {
         VStack(alignment: .center) {
             
-            
             Text("You currently have no task in your todolist!")
                 .padding()
             Text("Create a new one:")
@@ -126,7 +125,7 @@ struct MainTasksList: View {
             
             ForEach(tasksViewModel.tasks) { task in
                 
-                NavigationLink(destination: PlayTaskView(task: task)) {
+                NavigationLink(destination: PlayTaskView(task: task, tasksViewModel: tasksViewModel)) {
                     VStack(alignment: .leading) {
                         Text(task.label)
                             .font(.title)

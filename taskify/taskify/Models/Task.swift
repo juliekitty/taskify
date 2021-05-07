@@ -10,7 +10,7 @@ import Foundation
 let weekdays: [String]  = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
 class Task: Identifiable, Codable {
-    var ID: UUID = UUID()
+    let id: UUID // = UUID()
     let label: String
     let description: String
     let startDateTime: Date
@@ -27,6 +27,7 @@ class Task: Identifiable, Codable {
         self.startDateTime = timeStamp
         self.subtasks = []
         self.recurring = recurring
+        self.id = UUID()
         addNotification()
     }
     
