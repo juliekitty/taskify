@@ -14,9 +14,12 @@ class Task: Identifiable, Codable {
     let label: String
     let description: String
     let startDateTime: Date
-    var recurring: [Bool] = [false, false, false, false, false, false, false] // sunday, monday, tuesday, wednesday, thursday, friday, saturday
+    var recurring: [Bool] = [false, false, false, false, false, false, false]
+    // sunday, monday, tuesday, wednesday, thursday, friday, saturday
     var subtasks: [SubTask]
+    // subTask is not implemented
     var notificationsId: [String] = []
+    // Id of the task notifications
     
     init(label: String, timeStamp: Date, recurring: [Bool], description: String) {
         self.label = label
@@ -58,11 +61,9 @@ class Task: Identifiable, Codable {
     
     func addSubtask(newTask: SubTask) -> Void {
         self.subtasks.append(newTask)
-        // return self.subtasks
     }
     
     func addRecurring(weekdays: [Bool]) -> Void {
-        
         self.recurring = weekdays
     }
     
@@ -72,12 +73,9 @@ class Task: Identifiable, Codable {
         
         if self.recurring.allSatisfy({ $0 == false }) {
             
-            print("\nadd unique notification on \(startDateTime)")
+            print("\n add unique notification on \(startDateTime)")
                         
-            // get the user's calendar
             let userCalendar = Calendar.current
-            
-            // choose which date and time components are needed
             let requestedComponents: Set<Calendar.Component> = [
                 .year,
                 .month,
@@ -101,12 +99,9 @@ class Task: Identifiable, Codable {
             
             for (index, weekday) in self.recurring.enumerated() {
                 if (weekday) {
-                    print("\nadd notification on \(weekdays[index])")
+                    print("\n add notification on \(weekdays[index])")
                     
-                    // get the user's calendar
                     let userCalendar = Calendar.current
-                    
-                    // choose which date and time components are needed
                     let requestedComponents: Set<Calendar.Component> = [
                         .year,
                         .month,
@@ -132,15 +127,11 @@ class Task: Identifiable, Codable {
         
     } // addNotification
     
-    
-    func deleteTask() {
+    func deleteNotifications() {
         let manager = LocalNotificationManager()
-
         manager.deleteNotification(ids: self.notificationsId)
-
     }
 }
-
 
 class SubTask: Identifiable, Codable {
     let label: String

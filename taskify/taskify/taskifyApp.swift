@@ -15,4 +15,6 @@ struct taskifyApp: App {
             MainTasksList()
         }
     }
+    
 }
+

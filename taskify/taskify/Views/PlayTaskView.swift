@@ -5,15 +5,6 @@ struct PlayTaskView: View {
     @State var task: Task
     
     var body: some View {
-        /*
-        NavigationView {
-            FirstView
-                .navigationTitle(task.label)
-                .navigationBarTitleDisplayMode(.large)
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
- */
-        
         FirstView
             .navigationTitle(task.label)
     }
@@ -23,82 +14,20 @@ struct PlayTaskView: View {
             ZStack() {
                 Color.lightGrey
                 VStack(alignment: .leading) {
-
                     Text(task.description)
                         .multilineTextAlignment(.leading)
-                    
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .padding()
                 }
-                
-                /*
-                NavigationLink(
-                    destination: SecondView()) {
-                    Image(systemName: "arrow.right")
-                        .font(Font.system(size: 60, weight: .black))
-                }
-                */
+                .frame(width: 380, alignment: .topLeading)
+                .background(Color.white)
+                .padding()
             }
+            .padding()
         
     }
     
 }
-
-
-/*
-struct SecondView: View {
-    @State var showThreeView: Bool = false // bool zum aktivieren des Links zu ThreeView() der bool wird programmatisch gesetzt > es ict nicht notwndig, der die Schaltflaechen Oben im Menu betaetigt werden
-    
-    var body: some View {
-        ZStack {
-            NavigationLink(destination: ThreeView(), isActive: $showThreeView) {
-                EmptyView()
-            }
-            Color.green
-            VStack(spacing: 100) {
-                
-                // kann per Button und per Klick auf Text ausgeloest werden
-                NavigationLink(destination: ThreeView(), isActive: $showThreeView) {
-                    Text("go to threeView")
-                }
-                // nur per Button ausgeloest werden > weil die linkView eine EmptyView() ist
-               
-            }
-            .navigationTitle("Second")
-            .navigationBarTitleDisplayMode( .large)
-            
-            Button(action: {
-                showThreeView = true
-            }, label: {
-                Image(systemName: "xmark") .font(Font.system(.largeTitle).bold())
-            })
-            
-            
-        }
-        .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                                showThreeView = true
-            }
-        }
-        .onDisappear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
-                //                showThreeView = false
-            }
-        }
-    }
-    
-}
-
-struct ThreeView: View {
-    var body: some View {
-        
-        ZStack {
-            Color(UIColor.cyan)
-                .navigationTitle("Three")
-                .navigationBarTitleDisplayMode( .large)
-            
-        }
-    }
-}
-*/
 
 
 struct PlayTaskView_Previews: PreviewProvider {

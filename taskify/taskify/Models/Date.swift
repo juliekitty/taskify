@@ -1,10 +1,3 @@
-//
-//  Date.swift
-//  taskify
-//
-//  Created by Julie Landry on 05.05.21.
-//
-
 import Foundation
 
 extension Date {

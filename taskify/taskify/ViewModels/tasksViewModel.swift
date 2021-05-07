@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+// ViewModel for MainTasksList View
+// Manage the tasks List
+// Store the tasks list on the App Storage
 class TasksViewModel: ObservableObject {
     @Published var tasks: [Task] = [Task]()
     
@@ -73,12 +76,12 @@ class TasksViewModel: ObservableObject {
     
     func deleteTask(at offsets: IndexSet) {
 
-        // deleteNotification
+        // delete Notifications
         let toRemove = self.tasks[offsets.first!]
-        toRemove.deleteTask()
+        toRemove.deleteNotifications()
         
+        // delete Task from List
         self.tasks.remove(atOffsets: offsets)
-        //TODO: delete the notifications planned for this task
         self.storeData()
     }
 }

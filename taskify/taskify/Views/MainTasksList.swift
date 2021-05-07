@@ -9,12 +9,15 @@ import SwiftUI
 
 struct MainTasksList: View {
     
-    // @StateObject private var tasksViewModel: tasksViewModel = tasksViewModel()
     @State private var selection: String? = nil
+    // selection: tag for Naviation
     @StateObject var tasksViewModel: TasksViewModel = TasksViewModel()
+    // tasksViewModel: ViewModel which stores the tasks List
     @AppStorage("welcomeSheet") var welcomeSheetDone: Bool = false
+    // welcomeSheetDone: true if the user already saw the welcome Sheet
 
     @State var showWelcomeSheetView = false
+    // showWelcomeSheetView: Toggle to display the welcomeSheet
     
     var body: some View {
         
@@ -84,6 +87,7 @@ struct MainTasksList: View {
         }
     }
     
+    // List empty state
     var emptyListView: some View {
         VStack(alignment: .center) {
             
@@ -112,6 +116,7 @@ struct MainTasksList: View {
         }
     }
     
+    // List not-empty state
     var tasksListView: some View {
         List {
             
