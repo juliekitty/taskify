@@ -138,9 +138,7 @@ struct AddOrEditTaskView: View {
                  */
                 
             } // VStack
-            
-            listView
-            
+                        
         } // ZStack
         .onAppear {
             if let index = tasksViewModel.tasks.firstIndex(where: { $0.id == editedTaskID }) {
@@ -156,24 +154,6 @@ struct AddOrEditTaskView: View {
         
         
     } // body
-    
-    
-    
-    
-    @ViewBuilder
-    var listView: some View {
-        //editMode or addMode
-        if let index = tasksViewModel.tasks.firstIndex(where: { $0.id == editedTaskID }) {
-            Text("tasksViewModel \(index)")
-        }
-    }
-    
-    // List empty state
-    var emptyListView: some View {
-        VStack(alignment: .center) {
-            
-        }
-    }
     
 } // AddTaskView
 
