@@ -35,6 +35,7 @@ struct MainTasksList: View {
                         self.showWelcomeSheetView.toggle()
                     }) {
                         Text("What can i do?")
+                            .padding()
                     }.sheet(isPresented: $showWelcomeSheetView) {
                         welcomeSheetView(showWelcomeSheetView: self.$showWelcomeSheetView)
                     } // sheet

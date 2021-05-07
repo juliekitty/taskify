@@ -11,18 +11,17 @@ struct welcomeSheetView: View {
             
             VStack {
                 VStack {
-                    Spacer()
                     
                     Text("Welcome to").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     HStack {
                         Text("Taskify").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                         Text("App").foregroundColor(.orange).font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                     }
-                    .padding(.bottom, 30)
+                    .padding(.bottom, 10)
                     
                 }//Intro VStack close
                 .font(.largeTitle)
-                .frame(maxWidth: .infinity, maxHeight: 180)
+                .frame(maxWidth: .infinity)
                 
                 VStack (spacing: 30) {
                     HStack (spacing: 20) {
@@ -93,7 +92,7 @@ struct welcomeSheetView: View {
                         .foregroundColor(.white)
                         .cornerRadius(15)
                 }
-                .frame(maxWidth: .infinity, maxHeight: 100)
+                .frame(maxWidth: .infinity)
             }
         }
     }
