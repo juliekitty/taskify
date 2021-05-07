@@ -30,7 +30,7 @@ struct welcomeSheetView: View {
                             .font(.title2)
                             
                         VStack (alignment: .leading) {
-                            Text("Manage your todolit").fontWeight(.semibold)
+                            Text("Manage your todolist").fontWeight(.semibold)
                             Text("Add some tasks, edit your todolist.")
                                 .fixedSize(horizontal: false, vertical: true)
                                 .lineLimit(nil)

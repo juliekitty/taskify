@@ -34,7 +34,7 @@ class Task: Identifiable, Codable {
     func displayRecurring() -> String {
         var returnStr: String = ""
         if (self.recurring == [false, false, false, false, false, false, false]) {
-            returnStr = "none"
+            returnStr = "once"
         } else if (self.recurring == [false, true, true, true, true, true, false]) {
             returnStr = "every weekday" // en semaine
         } else if (self.recurring == [true, true, true, true, true, true, true]) {
